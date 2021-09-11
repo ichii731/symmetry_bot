@@ -6,7 +6,11 @@ Fully automatic face recognition symmetry image generation / posting system for 
 
 ![Untitled](https://qiita-user-contents.imgix.net/https%3A%2F%2Fqiita-image-store.s3.ap-northeast-1.amazonaws.com%2F0%2F513165%2Feeb1ba6f-1439-2146-5e29-e71bc8045423.jpeg?ixlib=rb-4.0.0&auto=format&gif-q=60&q=75&w=1400&fit=max&s=a6206821c78f117ff1f0159f47f1d87d)
 
-## Mechanism
+## Using
+
+```
+./launch.sh
+```
 
 詳しい日本語での解説はQiitaを御覧ください。
 
