@@ -29,7 +29,8 @@ $yesterday = new DateTime('-2 day');
 $connection = new TwitterOAuth($CK, $CS, $AT, $AS);
 
 // Get & Post Process
-$params = ['q' => '(from:@randomseikin2) until:' . $today->format('Y-m-d') . ' since:' . $yesterday->format('Y-m-d') . ' filter:images', 'result_type' => 'popular', 'count' => '1'];
+$params = ['q' => '(from:@randomseikin2) until:' . $today->format('Y-m-d') . ' since:' . $yesterday->format('Y-m-d') . ' filter:images', 'result_type' => 'recent', 'count' => '1'];
+
 $tweets = $connection->get('search/tweets', $params)->statuses;
 foreach ($tweets as $val1) {
     foreach ($val1->extended_entities->media as $val2) {
