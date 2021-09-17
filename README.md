@@ -12,11 +12,7 @@ Fully automatic face recognition symmetry image generation / posting system for 
 ./launch.sh
 ```
 
-詳しい日本語での解説はQiitaを御覧ください。
-
-https://qiita.com/ichii731/items/af03a038832f07039978
-
-## Changes
+## Change Log
 
 8月17日まで
 
@@ -29,16 +25,9 @@ https://qiita.com/ichii731/items/af03a038832f07039978
 
 ※現在のところGCP等の外部APIの導入予定はありません。
 
-------
+9月17日から
 
-Until August 17th
-
-- Use OpenCV's face recognition function for face recognition
-
-Since August 17th
-
-- It uses the Python face recognition library "face_recognition" for **more accurate face detection**.
-- Image processing has also moved from OpenCV to **Pillow** (Python Image Library).
+- ヒカキンさん動画データベースより取得したサムネイル画像の投稿機能を追加。毎日18時に稼働するようsystemdで指定。
 
 ## Tech Stack
 

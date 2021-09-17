@@ -21,27 +21,31 @@ $CS = $_ENV['CS'];
 $AT = $_ENV['AT'];
 $AS = $_ENV['AS'];
 
-// Set DataTime
-$today = new DateTime('-1 day');
-$yesterday = new DateTime('-2 day');
-
 // Make Connection
 $connection = new TwitterOAuth($CK, $CS, $AT, $AS);
 
-// Get & Post Process
-$params = ['q' => '(from:@randomseikin2) until:' . $today->format('Y-m-d') . ' since:' . $yesterday->format('Y-m-d') . ' filter:images', 'result_type' => 'recent', 'count' => '1'];
 
-$tweets = $connection->get('search/tweets', $params)->statuses;
-foreach ($tweets as $val1) {
-    foreach ($val1->extended_entities->media as $val2) {
-        $title = 'Tweet from hikakin(@hikakin) ID: ' . $val1->id;
-        if ($val2->media_url_https == '') {
-        } else {
-            download_image($val2->media_url_https, $val1->id);
-            exec('python3 sym.py ' . $val1->id);
-            $out_images = glob('out_img/' . $val1->id . '/*');
-            if (count($out_images) == 0) {
-                $imageId1 = $connection->upload('media/upload', ['media' => 'tmp_img/' . $val1->id . '/default.jpg']);
+// 動画データベースから情報取得
+$file = "database/hikakin.json";
+$json = file_get_contents($file);
+$json = json_decode($json, true);
+$val = array_rand($json, 1);
+$title = $json[$val]['snippet']['title'];
+$videoid = $json[$val]['id']['videoId'];
+$url = "https://youtube.com/watch?v=" . $videoid;
+$image_url = "https://i.ytimg.com/vi/" . $videoid . "/maxresdefault.jpg";
+
+
+        $title = '【過去動画データベースより取得】 ' . $title . " / " . $url;
+
+            download_image($image_url, $videoid);
+            exec('python3 sym.py ' . $videoid);
+            $out_images = glob('out_img/' . $videoid . '/*');
+            $in_images = glob('tmp_img/' . $videoid . '/*');
+            if (count($in_images) == 0) {
+                
+            } else if (count($out_images) == 0) {
+                $imageId1 = $connection->upload('media/upload', ['media' => 'tmp_img/' . $videoid . '/default.jpg']);
                 $tweet = [
                     'status' => '画像から顔の認識ができませんでした' . '/' . $title,
                     'media_ids' => implode(',', [
@@ -49,10 +53,10 @@ foreach ($tweets as $val1) {
                     ])
                 ];
                 $res = $connection->post('statuses/update', $tweet);
-                rmrf('tmp_img/' . $val1->id);
-                rmrf('out_img/' . $val1->id);
+                rmrf('tmp_img/' . $videoid);
+                rmrf('out_img/' . $videoid);
             } elseif (count($out_images) == 1) {
-                $imageId1 = $connection->upload('media/upload', ['media' => 'tmp_img/' . $val1->id . '/default.jpg']);
+                $imageId1 = $connection->upload('media/upload', ['media' => 'tmp_img/' . $videoid . '/default.jpg']);
                 $imageId2 = $connection->upload('media/upload', ['media' => $out_images[0]]);
                 $tweet = [
                     'status' => $title,
@@ -63,10 +67,10 @@ foreach ($tweets as $val1) {
                 ];
                 $res = $connection->post('statuses/update', $tweet);
                 // 削除
-                rmrf('tmp_img/' . $val1->id);
-                rmrf('out_img/' . $val1->id);
+                rmrf('tmp_img/' . $videoid);
+                rmrf('out_img/' . $videoid);
             } elseif (count($out_images) == 2) {
-                $imageId1 = $connection->upload('media/upload', ['media' => 'tmp_img/' . $val1->id . '/default.jpg']);
+                $imageId1 = $connection->upload('media/upload', ['media' => 'tmp_img/' . $videoid . '/default.jpg']);
                 $imageId2 = $connection->upload('media/upload', ['media' => $out_images[0]]);
                 $imageId3 = $connection->upload('media/upload', ['media' => $out_images[1]]);
                 $tweet = [
@@ -79,10 +83,10 @@ foreach ($tweets as $val1) {
                 ];
                 $res = $connection->post('statuses/update', $tweet);
                 // 削除
-                rmrf('tmp_img/' . $val1->id);
-                rmrf('out_img/' . $val1->id);
+                rmrf('tmp_img/' . $videoid);
+                rmrf('out_img/' . $videoid);
             } elseif (count($out_images) == 3) {
-                $imageId1 = $connection->upload('media/upload', ['media' => 'tmp_img/' . $val1->id . '/default.jpg']);
+                $imageId1 = $connection->upload('media/upload', ['media' => 'tmp_img/' . $videoid . '/default.jpg']);
                 $imageId2 = $connection->upload('media/upload', ['media' => $out_images[0]]);
                 $imageId3 = $connection->upload('media/upload', ['media' => $out_images[1]]);
                 $imageId4 = $connection->upload('media/upload', ['media' => $out_images[2]]);
@@ -97,12 +101,9 @@ foreach ($tweets as $val1) {
                 ];
                 $res = $connection->post('statuses/update', $tweet);
                 // 削除
-                rmrf('tmp_img/' . $val1->id);
-                rmrf('out_img/' . $val1->id);
+                rmrf('tmp_img/' . $videoid);
+                rmrf('out_img/' . $videoid);
             }
-        }
-    }
-}
 
 
 // Image Download Process via Twitter
