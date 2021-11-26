@@ -1,4 +1,4 @@
-# HIKAKIN&SEIKIN_SYMMETRY
+# Symmetry System
 
 Fully automatic face recognition symmetry image generation / posting system for Hikakin and Seikin
 
@@ -12,22 +12,29 @@ Fully automatic face recognition symmetry image generation / posting system for 
 ./launch.sh
 ```
 
+### Environment
+
+```
+Ubuntu 20.04 LTS
+PHP 7.4.1
+Python 3.9
+```
+
 ## Change Log
 
-8月17日まで
+First Commit
+- Face Recognition: **OpenCV** of Face Recognition (Face API) is used.
 
-- 顔認識に**OpenCV**の顔認識(Face API)を利用。
+Angust 17th
 
-8月17日から
+- Python's face recognition library **face_recognition** is used for more accurate face detection.
+- Image processing has also moved from OpenCV to **Pillow(Python Image Library)**.
 
-- **より高精度な顔検出ができる**よう、Pythonの顔認識ライブラリ「face_recognition」を採用。
-- 画像処理もOpenCV→**Pillow**(Python Image Library)に移行しました。
+※Operating on its own platform without using any external API
 
-※現在のところGCP等の外部APIの導入予定はありません。
+September 6th
 
-9月17日から
-
-- ヒカキンさん動画データベースより取得したサムネイル画像の投稿機能を追加。毎日18時に稼働するようsystemdで指定。
+- Added a function to post thumbnail images acquired from Hikakin's video database.  Specified by systemd to run at 18:00 every day.
 
 ## Tech Stack
 
@@ -51,17 +58,9 @@ Composer (PHP)
 
 - Systemd.Timer (Ubuntu 20.04 LTS)
 
-## Notice!
+## Notice
 
-pipライブラリの「face_recognition」はC++で動作するのでHeroku等のクラウドプラットフォームではうまく機能しないかもしれません(そのへんは公式リポジトリを見てください〜)
-
-本来公開するつもりじゃなかったのでTwitterAPI処理はPHP・画像処理はPythonとかいう意味のわからない仕様になっています…
-
-なので一応MITライセンスにしときますがこんなrepoは参考にしないほうが良いですｗ
-
-------
-
-The pip library "face_recognition" runs in C++, so it may not work well on cloud platforms such as Heroku (see the official repository for details).
+The pip library "face_recognition" runs in C++, so **it may not work well on cloud platforms such as Heroku** (see the official repository for details).
 
 The Twitter API processing is done in PHP and the image processing is done in Python, which makes no sense to me...
 
