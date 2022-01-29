@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 ### Main Script ###
-# GPL-3 License by @ichii731
+# MIT License by @ichii731
 
 from symmetry import Symmetry
 
