@@ -1,3 +1,4 @@
 .env
 experiment/
 corpus/
+database/
