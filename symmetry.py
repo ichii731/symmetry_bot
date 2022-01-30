@@ -40,6 +40,10 @@ class Symmetry:
         self.image_url = _n['image_url']
         self.text = _n['text']
         source = self.url2bin(self.image_url)
+        upload_source = self.url2bin(self.image_url)
+        upload_source.seek(0)
+        self.add_upload_list(upload_source)
+
         # Face_Recognize!
         response = urllib.request.urlopen(self.image_url)
         image = face_recognition.load_image_file(response)
