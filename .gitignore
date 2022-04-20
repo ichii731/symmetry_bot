@@ -1,3 +1,4 @@
 .env
 /hikakin_video_database
 /__pycache__
+/.vscode

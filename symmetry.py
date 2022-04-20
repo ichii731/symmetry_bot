@@ -85,6 +85,8 @@ class Symmetry:
         auth = tweepy.OAuthHandler(self.CK, self.CS)
         auth.set_access_token(self.AT, self.AS)
         api = tweepy.API(auth)
+        # delete upload_list[0]
+        del self.upload_list[0]
         # Upload images and get media_ids
         media_ids = []
         for file_byte in self.upload_list:
